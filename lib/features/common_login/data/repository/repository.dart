@@ -5,6 +5,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:elearning/core/api_constants/apis.dart';
 import 'package:elearning/features/student_side/std_homescreen/view/student_home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -15,7 +16,7 @@ class StudentRepository {
   Future<void> studentLogin(user, BuildContext context) async {
     try {
       final http.Response response = await http.post(
-        Uri.parse('http://10.0.2.2:8000/api/token/'),
+        Uri.parse(loginApi),
         headers: <String, String>{
           'Content-type': 'application/json',
         },
@@ -23,6 +24,7 @@ class StudentRepository {
       );
 
       if (response.statusCode == 200) {
+        log('message');
         final Map<String, dynamic> responseData = jsonDecode(response.body);
 
         final String accessToken = responseData['access'];
@@ -51,6 +53,16 @@ class StudentRepository {
           content: Center(child: Text('Login failed')),
         ),
       );
+    }
+  }
+
+  Future<void> logout() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      prefs.remove('accessToken');
+      prefs.remove('refreshToken');
+    } catch (e) {
+      log(e.toString());
     }
   }
 }

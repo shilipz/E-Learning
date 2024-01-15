@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 import 'dart:developer';
+import 'package:elearning/core/api_constants/apis.dart';
 import 'package:elearning/core/constants/constants.dart';
 import 'package:elearning/features/common_login/data/models/user_model.dart';
 
@@ -52,13 +53,16 @@ class _SignUpScreenState extends State<StudentSignUp> {
   }
 
   Future<void> registerUser() async {
-    const String apiUrl = "http://10.0.2.2:8000/api/user/register/";
+    log('1');
+    const String apiUrl = studentRegister;
+    log('2');
 
     try {
       final http.Response response = await http.post(Uri.parse(apiUrl),
           headers: <String, String>{
             'Content-Type': 'application/json',
           },
+
           //body: jsonEncode(requestBody),
           body: jsonEncode(StudentUserModel(
                   email: emailController.text,
@@ -66,11 +70,13 @@ class _SignUpScreenState extends State<StudentSignUp> {
                   password: passwordController.text,
                   confirmPassword: confirmPasswordController.text)
               .toJson()));
-
+      log('3');
       if (response.statusCode == 201) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             backgroundColor: kblue,
             content: Text('Profile created successfully')));
+        log('4');
+        Navigator.of(context).pop();
       } else {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             backgroundColor: kblue, content: Text('Profile creation failed')));
@@ -133,8 +139,9 @@ class _SignUpScreenState extends State<StudentSignUp> {
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.purple),
                       onPressed: () async {
-                        log('message');
+                        log('before validation');
                         if (formkey.currentState!.validate()) {
+                          log('after validation');
                           await registerUser();
                         }
                         // Navigator.of(context).push(MaterialPageRoute(

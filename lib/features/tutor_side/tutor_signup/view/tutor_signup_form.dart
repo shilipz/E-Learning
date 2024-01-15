@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:elearning/core/api_constants/apis.dart';
 import 'package:elearning/core/constants/constants.dart';
 import 'package:elearning/features/common_login/data/models/user_model.dart';
 
@@ -50,7 +51,7 @@ class _SignUpScreenState extends State<TutorSignup> {
   }
 
   Future<void> registerUser() async {
-    const String apiUrl = "http://10.0.2.2:8000/api/user/register/";
+    const String apiUrl = tutorRegister;
 
     try {
       final http.Response response = await http.post(Uri.parse(apiUrl),

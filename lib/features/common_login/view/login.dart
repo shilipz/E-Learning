@@ -34,17 +34,7 @@ class _StdLoginState extends State<StdLogin> {
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
-          child:
-              // Container(
-              //   height: screenHeight,
-              //   width: screenWidth,
-              //   decoration: const BoxDecoration(
-              //       gradient: LinearGradient(
-              //           begin: Alignment.topCenter,
-              //           end: Alignment.bottomCenter,
-              //           colors: [kwhite, kpurple])),
-              //   child:
-              BlocProvider(
+          child: BlocProvider(
             create: (context) => LoginBloc(),
             child: Padding(
               padding: const EdgeInsets.all(16.0),
